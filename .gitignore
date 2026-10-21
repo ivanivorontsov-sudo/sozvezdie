@@ -1,0 +1,12 @@
+node_modules/
+**/build/
+.gradle/
+app/local.properties
+*.jks
+*.keystore
+*.pass
+signing.properties
+*.apk
+print/prev/
+deck/r/
+shots/

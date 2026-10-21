@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="ru"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>Созвездие</title>
+<link rel="stylesheet" href="style.css">
+</head><body>
+<div id="sky"></div>
+<!-- МЕНЮ -->
+<section id="menu" class="screen active">
+  <div class="logo"><div class="logo-stars">✦ ✧ ✦ ✧</div><h1>Созвездие</h1><p>Сложи четыре звезды в ряд — или столкни соперника с неба</p></div>
+  <button class="big" data-go="ai">Играть с ИИ</button>
+  <button class="big" data-act="hotseat">Вдвоём на одном телефоне</button>
+  <button class="big" data-go="net">По сети</button>
+  <div class="row"><button data-act="tutorial">Обучение</button><button data-go="rules">Правила</button></div>
+  <p class="ver">версия 1.0.0</p>
+</section>
+<!-- ВЫБОР ИИ -->
+<section id="ai" class="screen">
+  <h2>Уровень ИИ</h2>
+  <button class="big" data-ai="1">Новичок<small>делает ошибки, хорош для первой партии</small></button>
+  <button class="big" data-ai="2">Любитель<small>смотрит на ход вперёд</small></button>
+  <button class="big" data-ai="3">Мастер<small>считает на три полухода</small></button>
+  <label class="chk"><input type="checkbox" id="aiFirst"> ИИ ходит первым</label>
+  <button class="back" data-go="menu">← Назад</button>
+</section>
+<!-- СЕТЬ -->
+<section id="net" class="screen">
+  <h2>Игра по сети</h2>
+  <div class="card"><h3>Через интернет</h3><p>Один создаёт игру и говорит код, другой вводит его. Сервер не нужен: используется бесплатный ретранслятор ntfy.sh.</p>
+    <div class="row"><button data-act="inetHost">Создать игру</button></div>
+    <div class="row"><input id="code" maxlength="5" placeholder="Код, напр. БЖКЛМ"><button data-act="inetJoin">Войти</button></div></div>
+  <div class="card android"><h3>По Bluetooth</h3><p>Работает без интернета. Нужно разрешение «Устройства поблизости».</p>
+    <div class="row"><button data-act="btHost">Создать</button><button data-act="btScan">Найти телефон</button></div><div id="btList" class="list"></div></div>
+  <div class="card android"><h3>По Wi-Fi рядом</h3><p>Оба телефона в одной сети Wi-Fi, или один раздаёт точку доступа другому.</p>
+    <div class="row"><button data-act="lanHost">Создать</button><button data-act="lanScan">Найти игру</button></div>
+    <div class="row"><input id="ip" placeholder="или адрес, напр. 192.168.1.5"><button data-act="lanJoin">Войти</button></div><div id="lanList" class="list"></div></div>
+  <button class="back" data-go="menu">← Назад</button>
+</section>
+<!-- ПРАВИЛА -->
+<section id="rules" class="screen scroll">
+  <h2>Правила</h2>
+  <div class="rules">
+  <p><b>Цель.</b> Выиграет тот, кто первым <b>выстроит 4 своих фишки в ряд</b> (по горизонтали, вертикали или диагонали) <b>или столкнёт с поля 5 звёзд соперника</b>.</p>
+  <p><b>Состав.</b> Поле 6×6. У каждого 10 звёзд и 1 Солнце. Второй игрок начинает с <b>1 трофеем</b> — это фора за второй ход.</p>
+  <p><b>Ход.</b> Поставь звезду из запаса на любую пустую клетку. Солнце можно ставить начиная со второго хода каждого игрока (не самым первым ходом партии).</p>
+  <p><b>Отталкивание.</b> Поставленная фишка отталкивает соседей <b>в 4 стороны</b> (вверх, вниз, влево, вправо — не по диагонали). Вся сплошная цепочка фишек в этом направлении сдвигается на 1 клетку от новой фишки.</p>
+  <p><b>Солнце — якорь.</b> Солнце нельзя сдвинуть. Если в цепочке есть Солнце, эта цепочка не двигается. Само Солнце отталкивает, как обычная фишка.</p>
+  <p><b>Падение с поля.</b> Если крайнюю фишку цепочки вытолкнули за край: <b>чужая</b> звезда становится твоим трофеем, <b>своя</b> возвращается в твой запас.</p>
+  <p><b>Нет звёзд в запасе?</b> Тогда ходом переставь одну свою звезду с поля на другую пустую клетку — она тоже отталкивает.</p>
+  <p><b>Одновременный ряд.</b> Если после хода ряд получился у обоих, выигрывает тот, кто ходил.</p>
+  <p><b>Ничья</b> — если за 50 ходов каждого никто не победил.</p>
+  <p><b>Советы.</b> Края опасны: фишку у края легко столкнуть. Солнце защищает целую линию. Прямой ряд нельзя просто продлить вплотную — новая фишка оттолкнёт своих же соседей. Ряды собирают по диагонали (диагональ не толкается) или ловкими толчками.</p>
+  </div>
+  <button class="back" data-go="menu">← Назад</button>
+</section>
+<!-- ИГРА -->
+<section id="game" class="screen">
+  <div class="top"><button class="icon" data-act="quit">✕</button><div id="title">Партия</div><button class="icon" data-act="undo" id="undoBtn">↶</button></div>
+  <div class="player p2" id="pTop"></div>
+  <div id="boardWrap"><div id="board"></div></div>
+  <div class="player p1" id="pBot"></div>
+  <div id="msg"></div>
+  <div id="tut" class="tut hidden"><p id="tutText"></p><button id="tutNext">Дальше</button></div>
+</section>
+<div id="overlay" class="hidden"><div class="panel"><h2 id="ovTitle"></h2><p id="ovText"></p><div class="row" id="ovBtns"></div></div></div>
+<script src="engine.js"></script>
+<script src="net.js"></script>
+<script src="app.js"></script>
+</body></html>
